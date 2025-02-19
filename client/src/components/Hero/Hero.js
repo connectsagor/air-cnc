@@ -27,11 +27,8 @@ const homesData = [
     review: "4.8 (255)",
     img: "room-3.jpg",
   },
-];
-
-const newHomes = [
   {
-    id: 1,
+    id: 4,
     name: "A Fuest House",
     location: "New York",
     cost: "$118 per person",
@@ -39,7 +36,7 @@ const newHomes = [
     img: "room-4.jpg",
   },
   {
-    id: 2,
+    id: 5,
     name: "A Merigold House",
     location: "USA",
     cost: "$308 per person",
@@ -47,7 +44,7 @@ const newHomes = [
     img: "room-5.jpg",
   },
   {
-    id: 3,
+    id: 6,
     name: "A Tour House",
     location: "Dhaka",
     cost: "$60 per person",
@@ -55,7 +52,7 @@ const newHomes = [
     img: "room-6.jpg",
   },
   {
-    id: 4,
+    id: 7,
     name: "A Scerene House",
     location: "Rajshahi",
     cost: "$80 per person",
@@ -63,6 +60,7 @@ const newHomes = [
     img: "room-7.jpg",
   },
 ];
+
 const Hero = () => {
   return (
     <div className="container my-5">
@@ -80,8 +78,8 @@ const Hero = () => {
               placeholder="Add city, landmark or adress"
             />
           </div>
-          <div className="mt-2 form-group d-flex gap-3  justify-content-center align-items-center p-2 rounded-2">
-            <div className="arrival d-flex flex-column shadow-lg py-3 px-2">
+          <div className="w-100 mt-2 form-group d-flex gap-3  justify-content-center align-items-center p-2 rounded-2">
+            <div className="arrival w-50 d-flex flex-column shadow-lg py-3 px-2">
               <label htmlFor="arrival">Arrival</label>
               <input
                 className="border-0 input-field mt-1"
@@ -90,7 +88,7 @@ const Hero = () => {
                 name="arrival"
               ></input>
             </div>
-            <div className="arrival d-flex flex-column shadow-lg py-3 px-2">
+            <div className="departure w-50 d-flex flex-column shadow-lg py-3 px-2">
               <label htmlFor="departure">Departure</label>
               <input
                 className="border-0 input-field mt-1"
@@ -136,49 +134,53 @@ const Hero = () => {
           <div className="row mb-3">
             <h4>Letest Update</h4>
 
-            {newHomes.map((home) => {
-              return (
-                <div key={home.id} className="col-md-3 d-flex">
-                  <div className="home-box d-flex flex-column">
-                    <img
-                      className="w-100 h-100"
-                      src={require(`../../images/${home.img}`)}
-                      alt="Home"
-                    />
-                    <p className="my-3">{home.location}</p>
-                    <h6 className="text-uppercase">{home.name}</h6>
-                    <p>{home.cost}</p>
-                    <div className="d-flex">
-                      <StarFill className="font-bold me-3" />
-                      <p>{home.review}</p>
+            {homesData
+              .filter((newHome) => newHome.id > 3)
+              .map((home) => {
+                return (
+                  <div key={home.id} className="col-md-3 d-flex">
+                    <div className="home-box d-flex flex-column">
+                      <img
+                        className="w-100 h-100"
+                        src={require(`../../images/${home.img}`)}
+                        alt="Home"
+                      />
+                      <p className="my-3">{home.location}</p>
+                      <h6 className="text-uppercase">{home.name}</h6>
+                      <p>{home.cost}</p>
+                      <div className="d-flex">
+                        <StarFill className="font-bold me-3" />
+                        <p>{home.review}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
           <div className="row">
             <h4>Homes</h4>
-            {homesData.map((home) => {
-              return (
-                <div key={home.id} className="col-md-4 d-flex">
-                  <div className="home-box d-flex flex-column">
-                    <img
-                      className="w-100 h-100"
-                      src={require(`../../images/${home.img}`)}
-                      alt="Home"
-                    />
-                    <p className="my-3">{home.location}</p>
-                    <h6 className="text-uppercase">{home.name}</h6>
-                    <p>{home.cost}</p>
-                    <div className="d-flex">
-                      <StarFill className="font-bold me-3" />
-                      <p>{home.review}</p>
+            {homesData
+              .filter((newHome) => newHome.id < 6)
+              .map((home) => {
+                return (
+                  <div key={home.id} className="col-md-4 d-flex">
+                    <div className="home-box d-flex flex-column">
+                      <img
+                        className="w-100 h-100"
+                        src={require(`../../images/${home.img}`)}
+                        alt="Home"
+                      />
+                      <p className="my-3">{home.location}</p>
+                      <h6 className="text-uppercase">{home.name}</h6>
+                      <p>{home.cost}</p>
+                      <div className="d-flex">
+                        <StarFill className="font-bold me-3" />
+                        <p>{home.review}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>
