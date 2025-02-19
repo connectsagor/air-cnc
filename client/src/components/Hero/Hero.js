@@ -1,67 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dash, Plus, StarFill } from "react-bootstrap-icons";
 import "./Hero.css";
 
-const homesData = [
-  {
-    id: 1,
-    name: "A unique cottage",
-    location: "New York",
-    cost: "$128 per person",
-    review: "4.8 (201)",
-    img: "room-1.jpg",
-  },
-  {
-    id: 2,
-    name: "A beautiful house",
-    location: "Dhaka",
-    cost: "$108 per person",
-    review: "4.7 (261)",
-    img: "room-2.jpeg",
-  },
-  {
-    id: 3,
-    name: "A Relaxing Place",
-    location: "Rajshahi",
-    cost: "$100 per person",
-    review: "4.8 (255)",
-    img: "room-3.jpg",
-  },
-  {
-    id: 4,
-    name: "A Fuest House",
-    location: "New York",
-    cost: "$118 per person",
-    review: "4.7 (101)",
-    img: "room-4.jpg",
-  },
-  {
-    id: 5,
-    name: "A Merigold House",
-    location: "USA",
-    cost: "$308 per person",
-    review: "4.6 (361)",
-    img: "room-5.jpg",
-  },
-  {
-    id: 6,
-    name: "A Tour House",
-    location: "Dhaka",
-    cost: "$60 per person",
-    review: "4.7 (55)",
-    img: "room-6.jpg",
-  },
-  {
-    id: 7,
-    name: "A Scerene House",
-    location: "Rajshahi",
-    cost: "$80 per person",
-    review: "4.8 (25)",
-    img: "room-7.jpg",
-  },
-];
-
 const Hero = () => {
+  const [homesData, setHomesData] = useState("");
+  useEffect(() => {
+    fetch("http://localhost:5000/get-hotels")
+      .then((res) => res.json())
+      .then((result) => {
+        setHomesData(result.data);
+      });
+  }, []);
   return (
     <div className="container my-5">
       <div className="row">
@@ -134,53 +83,55 @@ const Hero = () => {
           <div className="row mb-3">
             <h4>Letest Update</h4>
 
-            {homesData
-              .filter((newHome) => newHome.id > 3)
-              .map((home) => {
-                return (
-                  <div key={home.id} className="col-md-3 d-flex">
-                    <div className="home-box d-flex flex-column">
-                      <img
-                        className="w-100 h-100"
-                        src={require(`../../images/${home.img}`)}
-                        alt="Home"
-                      />
-                      <p className="my-3">{home.location}</p>
-                      <h6 className="text-uppercase">{home.name}</h6>
-                      <p>{home.cost}</p>
-                      <div className="d-flex">
-                        <StarFill className="font-bold me-3" />
-                        <p>{home.review}</p>
+            {homesData &&
+              homesData
+                .filter((newHome) => newHome.id > 3)
+                .map((home) => {
+                  return (
+                    <div key={home.id} className="col-md-3 d-flex">
+                      <div className="home-box d-flex flex-column">
+                        <img
+                          className="w-100 h-100"
+                          src={require(`../../images/${home.img}`)}
+                          alt="Home"
+                        />
+                        <p className="my-3">{home.location}</p>
+                        <h6 className="text-uppercase">{home.name}</h6>
+                        <p>{home.cost}</p>
+                        <div className="d-flex">
+                          <StarFill className="font-bold me-3" />
+                          <p>{home.review}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
           </div>
           <div className="row">
             <h4>Homes</h4>
-            {homesData
-              .filter((newHome) => newHome.id < 6)
-              .map((home) => {
-                return (
-                  <div key={home.id} className="col-md-4 d-flex">
-                    <div className="home-box d-flex flex-column">
-                      <img
-                        className="w-100 h-100"
-                        src={require(`../../images/${home.img}`)}
-                        alt="Home"
-                      />
-                      <p className="my-3">{home.location}</p>
-                      <h6 className="text-uppercase">{home.name}</h6>
-                      <p>{home.cost}</p>
-                      <div className="d-flex">
-                        <StarFill className="font-bold me-3" />
-                        <p>{home.review}</p>
+            {homesData &&
+              homesData
+                .filter((newHome) => newHome.id < 6)
+                .map((home) => {
+                  return (
+                    <div key={home.id} className="col-md-4 d-flex">
+                      <div className="home-box d-flex flex-column">
+                        <img
+                          className="w-100 h-100"
+                          src={require(`../../images/${home.img}`)}
+                          alt="Home"
+                        />
+                        <p className="my-3">{home.location}</p>
+                        <h6 className="text-uppercase">{home.name}</h6>
+                        <p>{home.cost}</p>
+                        <div className="d-flex">
+                          <StarFill className="font-bold me-3" />
+                          <p>{home.review}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
           </div>
         </div>
       </div>
