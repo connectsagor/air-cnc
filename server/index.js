@@ -37,6 +37,20 @@ app.get("/get-hotels", async (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.get("/hotels", async (req, res) => {
+  const hotelData = await Hotel.find({}).limit(3);
+  res.status(200).json({
+    message: "success",
+    data: hotelData,
+  });
 });
+
+app.get("/selected-hotels", async (req, res) => {
+  const hotelData = await Hotel.find({}).limit(1);
+  res.status(200).json({
+    message: "success",
+    data: hotelData,
+  });
+});
+
+app.listen(port);

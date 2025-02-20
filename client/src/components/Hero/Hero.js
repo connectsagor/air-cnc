@@ -111,7 +111,7 @@ const Hero = () => {
             <h4>Homes</h4>
             {homesData &&
               homesData
-                .filter((newHome) => newHome.id < 6)
+                .filter((newHome) => newHome.id < 4)
                 .map((home) => {
                   return (
                     <div key={home.id} className="col-md-4 d-flex">
