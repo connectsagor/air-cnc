@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import "./Hotels.css";
+import { useNavigate } from "react-router";
 const Hotels = () => {
+  const navigate = useNavigate();
   const [hotelData, setHotelData] = useState("");
   useEffect(() => {
     fetch("http://localhost:5000/hotels")
@@ -47,7 +49,9 @@ const Hotels = () => {
                         />
                       </div>
                       <div className="col-md-6 d-flex flex-column justify-content-center">
-                        <h6>{hotel.name}</h6>
+                        <h6 onClick={() => navigate("/bookings")}>
+                          {hotel.name}
+                        </h6>
                         <p>{hotel.location}</p>
                         <p>{hotel.cost}</p>
                         <p>{hotel.review}</p>

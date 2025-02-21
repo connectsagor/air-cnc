@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Dash, Plus, StarFill } from "react-bootstrap-icons";
 import "./Hero.css";
+import { useNavigate } from "react-router";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [homesData, setHomesData] = useState("");
   useEffect(() => {
     fetch("http://localhost:5000/get-hotels")
@@ -75,7 +77,10 @@ const Hero = () => {
               </div>
             </div>
           </div>
-          <button className="border-0 py-3 px-3 w-100 primary-btn rounded-1 mt-3">
+          <button
+            onClick={() => navigate("/hotels")}
+            className="border-0 py-3 px-3 w-100 primary-btn rounded-1 mt-3"
+          >
             Search
           </button>
         </div>

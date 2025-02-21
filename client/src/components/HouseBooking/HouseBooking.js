@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
+
 import {
   ArrowDownShort,
   ArrowRight,
@@ -8,6 +9,7 @@ import {
 } from "react-bootstrap-icons";
 import HouseRules from "../HouseRules/HouseRules";
 import WhoComing from "../WhoComing/WhoComing";
+import Payment from "../Payment/Payment";
 
 const HouseBooking = () => {
   const [selectedHotel, setSelectedHotel] = useState("");
@@ -54,7 +56,11 @@ const HouseBooking = () => {
               </>
             )}
 
-            {step === 3 && <></>}
+            {step === 3 && (
+              <>
+                <Payment />
+              </>
+            )}
           </div>
           <div className="col-md-5">
             {selectedHotel &&
