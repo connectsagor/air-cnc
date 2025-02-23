@@ -46,7 +46,9 @@ app.get("/hotels", async (req, res) => {
 });
 
 app.get("/selected-hotels", async (req, res) => {
-  const hotelData = await Hotel.find({}).limit(1);
+  const { id } = req.query;
+
+  const hotelData = await Hotel.find({ id: id });
   res.status(200).json({
     message: "success",
     data: hotelData,

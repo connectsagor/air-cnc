@@ -12,6 +12,10 @@ const Hotels = () => {
         setHotelData(result.data);
       });
   }, []);
+
+  const handleGetHotel = (id) => {
+    navigate(`/bookings/${id}`);
+  };
   return (
     <>
       <Navbar />
@@ -49,7 +53,7 @@ const Hotels = () => {
                         />
                       </div>
                       <div className="col-md-6 d-flex flex-column justify-content-center">
-                        <h6 onClick={() => navigate("/bookings")}>
+                        <h6 onClick={() => handleGetHotel(hotel.id)}>
                           {hotel.name}
                         </h6>
                         <p>{hotel.location}</p>

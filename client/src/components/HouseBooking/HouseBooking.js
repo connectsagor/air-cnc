@@ -10,8 +10,12 @@ import {
 import HouseRules from "../HouseRules/HouseRules";
 import WhoComing from "../WhoComing/WhoComing";
 import Payment from "../Payment/Payment";
+import { useParams } from "react-router";
 
 const HouseBooking = () => {
+  const { id } = useParams();
+
+  console.log(id);
   const [selectedHotel, setSelectedHotel] = useState("");
   const [step, setStep] = useState(1);
 
@@ -20,7 +24,7 @@ const HouseBooking = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/selected-hotels")
+    fetch("http://localhost:5000/selected-hotels?id=" + id)
       .then((res) => res.json())
       .then((result) => {
         setSelectedHotel(result.data);
