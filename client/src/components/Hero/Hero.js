@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 const Hero = () => {
   const navigate = useNavigate();
   const [homesData, setHomesData] = useState("");
+
   useEffect(() => {
     fetch("http://localhost:5000/get-hotels")
       .then((res) => res.json())
@@ -13,6 +14,10 @@ const Hero = () => {
         setHomesData(result.data);
       });
   }, []);
+
+  const handleGetHotel = (id) => {
+    navigate(`/bookings/${id}`);
+  };
   return (
     <div className="container my-5">
       <div className="row">
@@ -94,7 +99,10 @@ const Hero = () => {
                 .map((home) => {
                   return (
                     <div key={home.id} className="col-md-3 d-flex">
-                      <div className="home-box d-flex flex-column">
+                      <div
+                        onClick={() => handleGetHotel(home.id)}
+                        className="home-box hotels d-flex flex-column"
+                      >
                         <img
                           className="w-100 h-100"
                           src={require(`../../images/${home.img}`)}
@@ -120,7 +128,10 @@ const Hero = () => {
                 .map((home) => {
                   return (
                     <div key={home.id} className="col-md-4 d-flex">
-                      <div className="home-box d-flex flex-column">
+                      <div
+                        onClick={() => handleGetHotel(home.id)}
+                        className="home-box d-flex flex-column hotels"
+                      >
                         <img
                           className="w-100 h-100"
                           src={require(`../../images/${home.img}`)}

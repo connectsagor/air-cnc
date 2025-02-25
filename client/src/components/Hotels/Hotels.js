@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 const Hotels = () => {
   const navigate = useNavigate();
   const [hotelData, setHotelData] = useState("");
+
   useEffect(() => {
     fetch("http://localhost:5000/hotels")
       .then((res) => res.json())
@@ -44,7 +45,10 @@ const Hotels = () => {
               hotelData.map((hotel) => {
                 return (
                   <div className="hotels my-4" key={hotel.id}>
-                    <div className="row">
+                    <div
+                      onClick={() => handleGetHotel(hotel.id)}
+                      className="row"
+                    >
                       <div className="col-md-6">
                         <img
                           className="w-100 rounded-1"
@@ -53,9 +57,7 @@ const Hotels = () => {
                         />
                       </div>
                       <div className="col-md-6 d-flex flex-column justify-content-center">
-                        <h6 onClick={() => handleGetHotel(hotel.id)}>
-                          {hotel.name}
-                        </h6>
+                        <h6>{hotel.name}</h6>
                         <p>{hotel.location}</p>
                         <p>{hotel.cost}</p>
                         <p>{hotel.review}</p>
