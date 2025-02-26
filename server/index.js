@@ -38,7 +38,8 @@ app.get("/get-hotels", async (req, res) => {
 });
 
 app.get("/hotels", async (req, res) => {
-  const hotelData = await Hotel.find({}).limit(3);
+  const { location } = req.query;
+  const hotelData = await Hotel.find({ location }).limit(3);
   res.status(200).json({
     message: "success",
     data: hotelData,

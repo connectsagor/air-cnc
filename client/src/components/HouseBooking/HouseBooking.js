@@ -13,9 +13,21 @@ import Payment from "../Payment/Payment";
 import { useParams } from "react-router";
 
 const HouseBooking = () => {
+  const booking = JSON.parse(sessionStorage.getItem("booking"));
+  const totalGuest =
+    booking.seatCount.adult +
+    booking.seatCount.child +
+    booking.seatCount.babies;
+
+  const totalCost =
+    booking.seatCount.adult +
+    booking.seatCount.child * 0.5 +
+    booking.seatCount.babies * 0;
+
+  const extraCost = booking.cleaning + booking.serviceCharge;
+
   const { id } = useParams();
 
-  console.log(id);
   const [selectedHotel, setSelectedHotel] = useState("");
   const [step, setStep] = useState(1);
 
@@ -30,6 +42,7 @@ const HouseBooking = () => {
         setSelectedHotel(result.data);
       });
   }, []);
+
   return (
     <>
       <Navbar />
@@ -97,13 +110,13 @@ const HouseBooking = () => {
 
                       <div className="date d-flex justify-content-around align-items-center border py-2 px-2 mt-2">
                         <div className="from">
-                          <p className="m-0">11/20/25</p>
+                          <p className="m-0">{booking.arrivalDate}</p>
                         </div>
                         <div>
                           <ArrowRight />
                         </div>
                         <div className="to">
-                          <p className="m-0">21/20/25</p>
+                          <p className="m-0">{booking.departureDate}</p>
                         </div>
                       </div>
                     </div>
@@ -112,7 +125,7 @@ const HouseBooking = () => {
                       <label htmlFor="date">Guest</label>
 
                       <div className="guest d-flex justify-content-between align-items-center border py-2 px-2 mt-2">
-                        <p className="m-0">3 Guest</p>{" "}
+                        <p className="m-0">{totalGuest} Guest</p>{" "}
                         <span>
                           {" "}
                           <ArrowDownShort />
@@ -123,19 +136,25 @@ const HouseBooking = () => {
                     <div className="form-group mt-2">
                       <div className="border-bottom py-2 px-2 mt-2 d-flex justify-content-between align-items-center">
                         <p>Cleaning fee:</p>
-                        <p>$10</p>
+                        <p>${booking.cleaning}</p>
                       </div>
                     </div>
                     <div className="form-group mt-2">
                       <div className="border-bottom py-2 px-2 mt-2 d-flex justify-content-between align-items-center">
                         <p>Service Charge:</p>
-                        <p>$10</p>
+                        <p>${booking.serviceCharge}</p>
                       </div>
                     </div>
                     <div className="form-group mt-2">
                       <div className="py-2 px-2 mt-2 d-flex justify-content-between align-items-center">
                         <p>Total:</p>
-                        <p>$10</p>
+                        <p>
+                          $
+                          {(
+                            Number(selectedHotel[0].cost) * totalCost +
+                            Number(extraCost)
+                          ).toFixed(2)}
+                        </p>
                       </div>
                     </div>
                   </div>

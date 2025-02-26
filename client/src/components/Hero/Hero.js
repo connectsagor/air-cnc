@@ -7,6 +7,15 @@ const Hero = () => {
   const navigate = useNavigate();
   const [homesData, setHomesData] = useState("");
 
+  const [location, setLocation] = useState("");
+  const [arrivalDate, setArrivalDate] = useState(new Date());
+  const [departureDate, setDepartureDate] = useState(new Date());
+  const [seatCount, setSeatCount] = useState({
+    adult: 2,
+    child: 2,
+    babies: 2,
+  });
+
   useEffect(() => {
     fetch("http://localhost:5000/get-hotels")
       .then((res) => res.json())
@@ -18,6 +27,21 @@ const Hero = () => {
   const handleGetHotel = (id) => {
     navigate(`/bookings/${id}`);
   };
+
+  const handleSearch = () => {
+    const BookingData = {
+      location,
+      arrivalDate,
+      departureDate,
+      seatCount,
+      cleaning: 10,
+      serviceCharge: 10,
+    };
+    if (location && arrivalDate && departureDate) {
+      sessionStorage.setItem("booking", JSON.stringify(BookingData));
+      navigate("/hotels");
+    }
+  };
   return (
     <div className="container my-5">
       <div className="row">
@@ -27,6 +51,8 @@ const Hero = () => {
           <div className="form-group d-flex flex-column shadow-lg p-3 rounded-2">
             <label htmlFor="location">Location</label>
             <input
+              onChange={(e) => setLocation(e.target.value)}
+              value={location}
               className="border-0 input-field mt-2"
               type="text"
               name="location"
@@ -38,6 +64,8 @@ const Hero = () => {
             <div className="arrival w-50 d-flex flex-column shadow-lg py-3 px-2">
               <label htmlFor="arrival">Arrival</label>
               <input
+                onChange={(e) => setArrivalDate(e.target.value)}
+                value={arrivalDate}
                 className="border-0 input-field mt-1"
                 type="date"
                 id="arrival"
@@ -47,6 +75,8 @@ const Hero = () => {
             <div className="departure w-50 d-flex flex-column shadow-lg py-3 px-2">
               <label htmlFor="departure">Departure</label>
               <input
+                onChange={(e) => setDepartureDate(e.target.value)}
+                value={departureDate}
                 className="border-0 input-field mt-1"
                 type="date"
                 id="departure"
@@ -63,27 +93,78 @@ const Hero = () => {
             <div className="adult mt-3 d-flex justify-content-between align-items-center">
               <p>Adult</p>
               <div>
-                <Dash className="font-bold mx-3" /> 2{" "}
-                <Plus className="font-bold mx-3" />{" "}
+                <Dash
+                  className="font-bold mx-3"
+                  onClick={() =>
+                    setSeatCount((prevCount) => ({
+                      ...prevCount,
+                      adult: Math.max(prevCount.adult - 1, 0),
+                    }))
+                  }
+                />
+                {seatCount.adult}
+                <Plus
+                  className="font-bold mx-3"
+                  onClick={() =>
+                    setSeatCount((prevCount) => ({
+                      ...prevCount,
+                      adult: Math.max(prevCount.adult + 1, 0),
+                    }))
+                  }
+                />{" "}
               </div>
             </div>
             <div className="child mt-3 d-flex justify-content-between align-items-center">
               <p>Child</p>
               <div>
-                <Dash className="font-bold mx-3" /> 2{" "}
-                <Plus className="font-bold mx-3" />{" "}
+                <Dash
+                  className="font-bold mx-3"
+                  onClick={() =>
+                    setSeatCount((prevCount) => ({
+                      ...prevCount,
+                      child: Math.max(prevCount.child - 1, 0),
+                    }))
+                  }
+                />{" "}
+                {seatCount.child}{" "}
+                <Plus
+                  className="font-bold mx-3"
+                  onClick={() =>
+                    setSeatCount((prevCount) => ({
+                      ...prevCount,
+                      child: Math.max(prevCount.child + 1, 0),
+                    }))
+                  }
+                />{" "}
               </div>
             </div>
             <div className="babies mt-3 d-flex justify-content-between align-items-center">
               <p>Babies</p>
               <div>
-                <Dash className="font-bold mx-3" /> 2{" "}
-                <Plus className="font-bold mx-3" />{" "}
+                <Dash
+                  className="font-bold mx-3"
+                  onClick={() =>
+                    setSeatCount((prevCount) => ({
+                      ...prevCount,
+                      babies: Math.max(prevCount.babies - 1, 0),
+                    }))
+                  }
+                />{" "}
+                {seatCount.babies}{" "}
+                <Plus
+                  className="font-bold mx-3"
+                  onClick={() =>
+                    setSeatCount((prevCount) => ({
+                      ...prevCount,
+                      babies: Math.max(prevCount.babies + 1, 0),
+                    }))
+                  }
+                />{" "}
               </div>
             </div>
           </div>
           <button
-            onClick={() => navigate("/hotels")}
+            onClick={handleSearch}
             className="border-0 py-3 px-3 w-100 primary-btn rounded-1 mt-3"
           >
             Search
@@ -110,7 +191,7 @@ const Hero = () => {
                         />
                         <p className="my-3">{home.location}</p>
                         <h6 className="text-uppercase">{home.name}</h6>
-                        <p>{home.cost}</p>
+                        <p>${home.cost}</p>
                         <div className="d-flex">
                           <StarFill className="font-bold me-3" />
                           <p>{home.review}</p>

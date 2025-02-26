@@ -3,16 +3,19 @@ import Navbar from "../Navbar/Navbar";
 import "./Hotels.css";
 import { useNavigate } from "react-router";
 const Hotels = () => {
+  const booking = JSON.parse(sessionStorage.getItem("booking"));
   const navigate = useNavigate();
   const [hotelData, setHotelData] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/hotels")
+    fetch("http://localhost:5000/hotels?location=" + booking.location)
       .then((res) => res.json())
       .then((result) => {
         setHotelData(result.data);
       });
   }, []);
+
+  console.log(booking);
 
   const handleGetHotel = (id) => {
     navigate(`/bookings/${id}`);
@@ -24,8 +27,8 @@ const Hotels = () => {
       <div className="container my-3">
         <div className="row">
           <div className="col-md-6">
-            <p>232 stays in April 2022</p>
-            <h5>Stay in Dhaka Division</h5>
+            <p>232 stays in {booking.arrivalDate}</p>
+            <h5>Stay in {booking.location} Division</h5>
             <div className="filter-menu d-flex gap-3 mt-3">
               <button className="border-1 bg-transparent py-2 px-3 rounded-4 font-small">
                 Cancelation flexibility
@@ -59,7 +62,7 @@ const Hotels = () => {
                       <div className="col-md-6 d-flex flex-column justify-content-center">
                         <h6>{hotel.name}</h6>
                         <p>{hotel.location}</p>
-                        <p>{hotel.cost}</p>
+                        <p>${hotel.cost}</p>
                         <p>{hotel.review}</p>
                       </div>
                     </div>
@@ -72,7 +75,7 @@ const Hotels = () => {
               <iframe
                 className="map h-100 w-100"
                 title="Map"
-                src="https://www.google.com/maps?q=Dhaka,Bangladesh&output=embed"
+                src={`https://www.google.com/maps?q=${booking.location}&output=embed`}
                 allowFullScreen=""
                 loading="lazy"
               ></iframe>
